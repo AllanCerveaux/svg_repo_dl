@@ -1,10 +1,9 @@
 <div align="center">
 	<img src=".github/README/Logo.svg" alt="logo"/>
+	<p><strong>SVG_REPO Pack</strong> Downloader A small personal tool that will allow you to download an icon pack on <a href="https://www.svgrepo.com/">SVGREPO</a> with the CLI.</p>
 </div>
 
 ___
-
-**SVG_REPO Pack Downloader** A small personal tool that will allow you to download an icon pack on [SVGREPO](https://www.svgrepo.com/) with the CLI.
 
 ## Requirement :
 
