@@ -1,6 +1,10 @@
 <div align="center">
 	<img src=".github/README/Logo.svg" alt="logo"/>
 	<p><strong>SVG_REPO Pack</strong> Downloader A small personal tool that will allow you to download an icon pack on <a href="https://www.svgrepo.com/">SVGREPO</a> with the CLI.</p>
+
+[![made-with-python](https://img.shields.io/badge/Made%20with-Python-1f425f.svg)](https://www.python.org/)
+[![last_commit](https://img.shields.io/github/last-commit/AllanCerveaux/svg_repo_dl?style=flat-square)](https://github.com/AllanCerveaux/svg_repo_dl/commits/master)
+[![MIT license](https://img.shields.io/badge/License-MIT-blue.svg)](https://github.com/AllanCerveaux/svg_repo_dl/blob/master/LICENSE)
 </div>
 
 ___
