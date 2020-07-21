@@ -1,9 +1,9 @@
 import sys
 import click
 from .Url import Url
+from .Message import Message
 from .utils import downloader
 from os.path import expanduser
-
 
 def getUserDocumentPath():
 	"""Locate Personal User document folder
@@ -28,14 +28,14 @@ def cli(path, url):
 	"""
 	urlHelpers = Url(url) 
 	if not urlHelpers.checker():
-		click.echo('😱 Oups URL provided not match !')
-		click.echo('💡 Your URL should look like this : https://svgrepo/collection/[id]')
+		Message.error('😱 Oups URL provided not match !')
+		Message.info('💡 Your URL should look like this : https://svgrepo/collection/[id]')
 		sys.exit()
 
 	if(urlHelpers.httpGetResponse() != 404):
 		dest = path + urlHelpers.collectionName();
-		click.echo('📣 Download will start for %s pack !' % urlHelpers.collectionName())
+		Message.info('📣 Download will start for %s pack !' % urlHelpers.collectionName())
 		downloader(url, dest)
 	else:
-		click.echo("😱 Cannot get this URL!")
+		Message.error("😱 Cannot get this URL!")
 		sys.exit()

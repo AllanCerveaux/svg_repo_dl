@@ -1,6 +1,6 @@
 import os
 import time
-import click
+from .Message import Message
 from selenium import webdriver
 from selenium.webdriver.firefox.options import Options
 from selenium.webdriver.firefox.firefox_profile import FirefoxProfile
@@ -46,5 +46,6 @@ def runBrowser(driver, url):
 	for i, link in  enumerate(all_links):
 		driver.execute_script('''window.open("'''+link+'''","_blank");''')
 		bar.next()
+	print('\n')
 	driver.close()
-	click.echo('\n🎉 Download done!')
+	Message.success('🎉 Download done!')
