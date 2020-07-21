@@ -6,18 +6,9 @@ from selenium.webdriver.firefox.options import Options
 from selenium.webdriver.firefox.firefox_profile import FirefoxProfile
 from progress.bar import IncrementalBar
 
-def getUserDocumentPath():
-	"""Locate Personal User document folder
-	Returns:
-		[string] -- Return destanation download path
-	"""
-	return expanduser("~") + "/Documents/icons/"
-
 def downloader(url, path):
-	urlChecker(url)
-	dest = path + collectionName(url)
 	click.echo('📣 Download will start for %s pack !' % collectionName(url))
-	driver = browserConfiguration(dest)
+	driver = browserConfiguration(path)
 	runBrowser(driver, url)
 
 def browserConfiguration(path):

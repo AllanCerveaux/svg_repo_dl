@@ -1,7 +1,14 @@
 import sys
 import click
 from .Url import Url
-from .utils import getUserDocumentPath, downloader
+from .utils import downloader
+
+def getUserDocumentPath():
+	"""Locate Personal User document folder
+	Returns:
+		[string] -- Return destanation download path
+	"""
+	return expanduser("~") + "/Documents/icons/"
 
 @click.command()
 @click.option('--path', '-p', default=getUserDocumentPath(), help="Change download destination path.")
@@ -24,7 +31,8 @@ def cli(path, url):
 		sys.exit()
 
 	if(url.httpGetResponse() != 404):
-		downloader(url, path)
+		dest = path + url.collectionName()
+		downloader(url, dest)
 	else:
 		click.echo("😱 Cannot get this URL!")
 		sys.exit()
