@@ -26,15 +26,15 @@ def cli(path, url):
 		path {[string]} -- Destination download path
 		url {[string]} -- URL of SVGREPO Collection
 	"""
-	url = Url(url) 
-	if not url.checker():
+	urlHelpers = Url(url) 
+	if not urlHelpers.checker():
 		click.echo('😱 Oups URL provided not match !')
 		click.echo('💡 Your URL should look like this : https://svgrepo/collection/[id]')
 		sys.exit()
 
-	if(url.httpGetResponse() != 404):
-		dest = path + url.collectionName();
-		click.echo('📣 Download will start for %s pack !' % url.collectionName(url))
+	if(urlHelpers.httpGetResponse() != 404):
+		dest = path + urlHelpers.collectionName();
+		click.echo('📣 Download will start for %s pack !' % urlHelpers.collectionName())
 		downloader(url, dest)
 	else:
 		click.echo("😱 Cannot get this URL!")
