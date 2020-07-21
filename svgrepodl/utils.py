@@ -1,6 +1,5 @@
 import time
 import click
-from os.path import expanduser
 from selenium import webdriver
 from selenium.webdriver.firefox.options import Options
 from selenium.webdriver.firefox.firefox_profile import FirefoxProfile

@@ -2,6 +2,8 @@ import sys
 import click
 from .Url import Url
 from .utils import downloader
+from os.path import expanduser
+
 
 def getUserDocumentPath():
 	"""Locate Personal User document folder
