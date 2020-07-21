@@ -1,5 +1,6 @@
 import click
 from .utils import getUserDocumentPath, downloader
+from .HttpStatusCode import HttpStatusCode
 
 @click.command()
 @click.option('--path', '-p', default=getUserDocumentPath(), help="Change download destination path.")
@@ -16,4 +17,8 @@ def cli(path, url):
 		path {[string]} -- Destination download path
 		url {[string]} -- URL of SVGREPO Collection
 	"""
-	downloader(url, path)
+	urlResponseChecker = HttpStatusCode(url).httpGetResponse() 
+	if(urlResponseChecker != 404):
+		downloader(url, path)
+	else:
+		click.echo("😱 Cannot get this URL!")
