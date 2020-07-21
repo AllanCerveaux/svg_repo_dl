@@ -6,7 +6,6 @@ from selenium.webdriver.firefox.firefox_profile import FirefoxProfile
 from progress.bar import IncrementalBar
 
 def downloader(url, path):
-	click.echo('📣 Download will start for %s pack !' % collectionName(url))
 	driver = browserConfiguration(path)
 	runBrowser(driver, url)
 

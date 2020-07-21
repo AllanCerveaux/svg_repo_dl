@@ -33,7 +33,8 @@ def cli(path, url):
 		sys.exit()
 
 	if(url.httpGetResponse() != 404):
-		dest = path + url.collectionName()
+		dest = path + url.collectionName();
+		click.echo('📣 Download will start for %s pack !' % url.collectionName(url))
 		downloader(url, dest)
 	else:
 		click.echo("😱 Cannot get this URL!")
