@@ -1,3 +1,4 @@
+import os
 import time
 import click
 from selenium import webdriver
@@ -26,7 +27,7 @@ def browserConfiguration(path):
 	profile.set_preference("browser.download.dir", path)
 	options = Options()
 	options.add_argument("--headless")
-	return webdriver.Firefox(firefox_profile=profile, options=options)
+	return webdriver.Firefox(firefox_profile=profile, options=options, service_log_path=os.path.devnull)
 
 # @TODO=use WebDriverWait and find_elements_by_*
 def runBrowser(driver, url):
@@ -47,4 +48,3 @@ def runBrowser(driver, url):
 		bar.next()
 	driver.close()
 	click.echo('\n🎉 Download done!')
-	click.echo('🙏 Thanks for using svgrepodl!')
