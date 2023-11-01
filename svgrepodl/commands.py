@@ -1,5 +1,4 @@
 import os
-import sys
 import re
 import click
 from .Url import Url
@@ -8,9 +7,10 @@ from .utils import downloader, list_collections as lc, DownloadException
 
 @click.command()
 @click.option('--path', '-p', default=os.getcwd(), help="Destination path.")
+@click.option('--list', '-l', is_flag=True, default=False, help="Only list SVG URL, do not actually download.")
 @click.option('--list-collections', '-L', is_flag=True, default=False)
 @click.argument('urls', nargs=-1)
-def cli(path, list_collections, urls):
+def cli(path, list_collections, list, urls):
     """Run downloader to get SVGREPO pack
 
     Decorators:
@@ -38,13 +38,15 @@ def cli(path, list_collections, urls):
         if is_search:
             term = re.match(r'.*/vectors/([^/?#&]+)', url).group(1)
             dest = os.path.join(path, 'search', term)
-            Message.info(f'📣 Download {i+1}/{len(urls)}: Search results for "{term}"')
+            if not list:
+                Message.info(f'📣 Download {i+1}/{len(urls)}: Search results for "{term}"')
         else:
             collection = urlHelpers.collectionName()
             dest = os.path.join(path, collection)
-            Message.info(f'📣 Download {i+1}/{len(urls)}: Collection {collection}')
+            if not list:
+                Message.info(f'📣 Download {i+1}/{len(urls)}: Collection {collection}')
 
         try:
-            downloader(url, dest)
+            downloader(url, dest, only_list=list, collection=collection)
         except DownloadException:
             Message.error(f"😱 Cannot get this URL {url}!")

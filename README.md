@@ -32,6 +32,11 @@ And run install.sh
 ```bash
 sh install.sh
 ```
+
+or alternatively:
+```bash
+PYTHONPATH=$(pwd) python -m svgrepodl --help
+```
 ## Usage :
 
 ```bash
@@ -49,5 +54,7 @@ The MIT License (MIT) 2020 - Callan, 2023 - Drzraf. Please have a look at the [L
 
 ## Metadata
 
-Once SVG files are retrieved, assuming consistent `<id>-<slug>.svg` names, then downloading is a matter of:
+Concurrency is not supported but it's possible to rely on `svgrepodl` for listing URL and actually download resources using another tool like `aria2c`
+
+The same applies to metadata: Once SVG files are retrieved, assuming consistent `<id>-<slug>.svg` names, downloading is a matter of:
 $ `find . -name '*.svg' -printf '%f\n' | sed -r 's!([0-9]+)-(.*)\.svg!https://api.svgrepo.com/svg/\1/\2\n\tout=\1-\2.json!' | aria2c --auto-file-renaming=false --allow-overwrite=false -i - -j 4`

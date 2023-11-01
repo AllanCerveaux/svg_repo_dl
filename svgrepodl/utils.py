@@ -33,7 +33,23 @@ def list_collections(category='all'):
         print("\n".join(all_links))
 
 
-def downloader(url, path):
+def download_items(all_links, path, bar):
+    for link in all_links:
+        aid = os.path.basename(os.path.dirname(link))
+        dest = os.path.join(path, aid + '-' + os.path.basename(link))
+        if os.path.exists(dest):
+            # print("already exists", link, file=sys.stderr)
+            continue
+        x = requests.get(link)
+        if x.headers.get('content-type') != 'image/svg+xml':
+            print("err", link, file=sys.stderr)
+            continue
+        with open(dest, 'wb') as f:
+            f.write(x.content)
+        bar.next()
+
+
+def downloader(url, path, only_list=False, collection=''):
     """
     Download a collection (or a search)
 
@@ -57,20 +73,12 @@ def downloader(url, path):
         if len(all_links) == 0:
             break
 
-        bar = IncrementalBar('📥 Icons URLs page %d/%d' % (page, num_page), max=len(all_links))
-        for link in all_links:
-            aid = os.path.basename(os.path.dirname(link))
-            dest = os.path.join(path, aid + '-' + os.path.basename(link))
-            if os.path.exists(dest):
-                # print("already exists", link, file=sys.stderr)
-                continue
-            x = requests.get(link)
-            if x.headers.get('content-type') != 'image/svg+xml':
-                print("err", link, file=sys.stderr)
-                continue
-            with open(dest, 'wb') as f:
-                f.write(x.content)
-            bar.next()
-        bar.finish()
+        if only_list:
+            print("\n".join([collection + "\t" + e for e in all_links]))
+            continue
 
-    Message.success('🎉 Finished')
+        bar = IncrementalBar('📥 Icons URLs page %d/%d' % (page, num_page), max=len(all_links))
+        download_items(all_links, path, bar)
+        bar.finish()
+    if not only_list:
+        Message.success('🎉 Finished')
