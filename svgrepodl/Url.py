@@ -30,5 +30,5 @@ class Url:
 		Return:
 			[boolean] -- Check if url match with pattern
 		"""
-		pattern =  '^(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)[a-z0-9]+([\-\.]svgrepo+)\.[a-z]{2,5}(\/collection\/)([a-zA-Z0-9-_]+)/?$'
+		pattern = r'^(https?://)?(www\.)?svgrepo\.com/(collection|vectors)/.+'
 		return re.match(pattern, self.url)

@@ -12,7 +12,7 @@ ___
 ## Requirement :
 
 - Python 3
-- Selenium
+- BeautifulSoup
 - Progress
 
 ## Installation
@@ -40,9 +40,9 @@ $ svgrepodl --help # Show all commands
 $ svgrepodl https://www.svgrepo.com/collection/role-playing-game/ # Run downloader
 ```
 
-The program saves the icons in `/home/Documents/icons/`.
+By default, the program saves the icons in the current directory.
 
 Enjoy !
 
 ## License
-The MIT License (MIT) 2020 - Callan, Please have a look at the [License](https://github.com/AllanCerveaux/svg_repo_dl/blob/master/LICENSE) for more details.
+The MIT License (MIT) 2020 - Callan, 2023 - Drzraf. Please have a look at the [License](https://github.com/AllanCerveaux/svg_repo_dl/blob/master/LICENSE) for more details.
