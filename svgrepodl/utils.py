@@ -11,6 +11,28 @@ class DownloadException(Exception):
     pass
 
 
+def get_page(soup):
+    page_footer = soup.select('div[class^="style_pagingCarrier"]')[0].get_text()
+    return int(re.sub(r'.*/\s+', r'', page_footer))
+
+
+def list_collections(category='all'):
+    url = f'https://www.svgrepo.com/collections/{category}/'
+    page1 = requests.get(url)
+    if page1.status_code != 200:
+        raise DownloadException()
+    soup = bs4.BeautifulSoup(page1.text, features="lxml")
+    num_page = get_page(soup)
+    for page in range(1, int(num_page) + 1):
+        print(f'page {page}/{num_page}', file=sys.stderr)
+        if page > 1:
+            html = requests.get(url + str(page))
+            soup = bs4.BeautifulSoup(html.text, features="lxml")
+        all_links = soup.select('div[class^="style_Collection__"] a')
+        all_links = [a.get('href') for a in all_links]
+        print("\n".join(all_links))
+
+
 def downloader(url, path):
     """
     Download a collection (or a search)
@@ -25,12 +47,7 @@ def downloader(url, path):
     soup = bs4.BeautifulSoup(page1.text, features="lxml")
 
     os.makedirs(path, exist_ok=True)
-    if is_search:
-        num_page = 99
-    else:
-        page_footer = soup.select('div[class^="style_pagingCarrier"]')[0].get_text()
-        num_page = int(re.sub(r'.*/\s+', r'', page_footer))
-
+    num_page = 99 if is_search else get_page(soup)
     for page in range(1, int(num_page) + 1):
         if page > 1:
             html = requests.get(url + str(page))
@@ -56,5 +73,4 @@ def downloader(url, path):
             bar.next()
         bar.finish()
 
-    print('\n')
     Message.success('🎉 Finished')

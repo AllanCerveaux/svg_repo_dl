@@ -4,12 +4,13 @@ import re
 import click
 from .Url import Url
 from .Message import Message
-from .utils import downloader, DownloadException
+from .utils import downloader, list_collections as lc, DownloadException
 
 @click.command()
 @click.option('--path', '-p', default=os.getcwd(), help="Destination path.")
+@click.option('--list-collections', '-L', is_flag=True, default=False)
 @click.argument('urls', nargs=-1)
-def cli(path, urls):
+def cli(path, list_collections, urls):
     """Run downloader to get SVGREPO pack
 
     Decorators:
@@ -20,6 +21,9 @@ def cli(path, urls):
         path {[string]} -- Destination download path
         url {[string]} -- URL of SVGREPO Collection
     """
+    if list_collections:
+        lc()
+        return
 
     path = os.path.realpath(os.path.expanduser(path))
     for i, url in enumerate(urls):
@@ -34,11 +38,11 @@ def cli(path, urls):
         if is_search:
             term = re.match(r'.*/vectors/([^/?#&]+)', url).group(1)
             dest = os.path.join(path, 'search', term)
-            Message.info(f'📣 Download {i}/{len(urls)}: Search results for "{term}"')
+            Message.info(f'📣 Download {i+1}/{len(urls)}: Search results for "{term}"')
         else:
             collection = urlHelpers.collectionName()
             dest = os.path.join(path, collection)
-            Message.info(f'📣 Download {i}/{len(urls)}: Collection {collection}')
+            Message.info(f'📣 Download {i+1}/{len(urls)}: Collection {collection}')
 
         try:
             downloader(url, dest)

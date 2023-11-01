@@ -46,3 +46,8 @@ Enjoy !
 
 ## License
 The MIT License (MIT) 2020 - Callan, 2023 - Drzraf. Please have a look at the [License](https://github.com/AllanCerveaux/svg_repo_dl/blob/master/LICENSE) for more details.
+
+## Metadata
+
+Once SVG files are retrieved, assuming consistent `<id>-<slug>.svg` names, then downloading is a matter of:
+$ `find . -name '*.svg' -printf '%f\n' | sed -r 's!([0-9]+)-(.*)\.svg!https://api.svgrepo.com/svg/\1/\2\n\tout=\1-\2.json!' | aria2c --auto-file-renaming=false --allow-overwrite=false -i - -j 4`
