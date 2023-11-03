@@ -2,6 +2,8 @@ import sys
 import re
 import os
 import requests
+from requests.adapters import HTTPAdapter
+from urllib3.util.retry import Retry
 import bs4
 from .Message import Message
 from progress.bar import IncrementalBar
@@ -10,6 +12,7 @@ from progress.bar import IncrementalBar
 class DownloadException(Exception):
     pass
 
+session = None
 
 def get_page(soup):
     page_footer = soup.select('div[class^="style_pagingCarrier"]')[0].get_text()
@@ -40,7 +43,7 @@ def download_items(all_links, path, bar):
         if os.path.exists(dest):
             # print("already exists", link, file=sys.stderr)
             continue
-        x = requests.get(link)
+        x = session.get(link)
         if x.headers.get('content-type') != 'image/svg+xml':
             print("err", link, file=sys.stderr)
             continue
@@ -62,11 +65,16 @@ def downloader(url, path, only_list=False, collection=''):
         raise DownloadException()
     soup = bs4.BeautifulSoup(page1.text, features="lxml")
 
+    global session
+    session = requests.Session()
+    retries = Retry(total=2, backoff_factor=1)
+    session.mount('https://', HTTPAdapter(max_retries=retries))
+
     os.makedirs(path, exist_ok=True)
     num_page = 99 if is_search else get_page(soup)
     for page in range(1, int(num_page) + 1):
         if page > 1:
-            html = requests.get(url + str(page))
+            html = session.get(url + str(page))
             soup = bs4.BeautifulSoup(html.text, features="lxml")
         all_links = soup.select('div[class^="style_NodeImage_"] img[itemprop="contentUrl"]')
         all_links = [a.get('src') for a in all_links]
