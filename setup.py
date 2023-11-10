@@ -16,6 +16,7 @@ setup(
 	py_modules=['svgrepodl'],
 	install_requires = [
 		'bs4',
+		'lxml',
 		'requests',
 		'progress',
 		'click',
