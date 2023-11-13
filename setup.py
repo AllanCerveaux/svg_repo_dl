@@ -15,7 +15,9 @@ setup(
 	license="MIT",
 	py_modules=['svgrepodl'],
 	install_requires = [
-		'selenium',
+		'bs4',
+		'lxml',
+		'requests',
 		'progress',
 		'click',
 		'colored',
